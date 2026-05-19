@@ -12,17 +12,17 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setThemeState] = useState<Theme>('light')
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', 'light')
-  }, [])
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   const value = useMemo(
     () => ({
-      theme: 'light',
-      toggleTheme: () => setTheme('light'),
-      setTheme: () => setTheme('light'),
+      theme,
+      toggleTheme: () => setThemeState(theme === 'light' ? 'dark' : 'light'),
+      setTheme: (value: Theme) => setThemeState(value),
     }),
     [theme],
   )
